@@ -16,5 +16,5 @@ using BundlerMinifier;
 [assembly: ComVisible(false)]
 [assembly: Guid("b714b5b9-27c4-443c-9517-fe5c5ef46ea2")]
 
-[assembly: AssemblyVersion(Constants.VERSION)]
-[assembly: AssemblyFileVersion(Constants.VERSION)]
+[assembly: AssemblyVersion("0.1.21")]
+[assembly: AssemblyFileVersion("0.1.21")]

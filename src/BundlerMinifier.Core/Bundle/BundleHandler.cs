@@ -83,6 +83,7 @@ namespace BundlerMinifier
         {
             DateTime mostRecentWrite = default(DateTime);
             StringBuilder sb = new StringBuilder();
+            StringBuilder sbImports = new StringBuilder();
             List<string> inputFiles = bundle.GetAbsoluteInputFiles();
 
             for (int i = 0; i < inputFiles.Count; i++)
@@ -107,17 +108,40 @@ namespace BundlerMinifier
                     if (mostRecentWrite < lastWriteFile)
                         mostRecentWrite = lastWriteFile;
 
+                    ExCSS.StylesheetParser parser = new ExCSS.StylesheetParser();
+                    var styleSheet = parser.Parse(content);
+                    var imports = styleSheet?.ImportRules;
+                    var nonImports = styleSheet?.Children;
+
                     // adding new line only if there are more than 1 files
                     // otherwise we are preserving file integrity
                     if (sb.Length > 0)
                         sb.AppendLine();
 
-                    sb.Append(content);
+                    if (sbImports.Length > 0)
+                        sbImports.AppendLine();
+
+                    if (imports is object && imports.Count() > 0)
+                    {
+                        imports.ToList().ForEach(node => sbImports.AppendLine(node.Text));
+                        nonImports?.ToList().ForEach(node =>
+                        {
+                            if (!imports.Contains(node))
+                            {
+                                sb.Append(node.StylesheetText.Text);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        sb.Append(content);
+                    }                    
                 }
             }
 
             bundle.MostRecentWrite = mostRecentWrite;
-            bundle.Output = sb.ToString();
+            sbImports.Append(sb);
+            bundle.Output = sbImports.ToString();
         }
 
         private static bool AdjustRelativePaths(Bundle bundle)

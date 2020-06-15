@@ -3,7 +3,9 @@
   <Import Project="..\common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net46;netstandard1.3;netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
+    <Version>0.1.22-beta-mm</Version>
+    <!--<TargetFrameworks>net46;netstandard1.3;netcoreapp2.0;netcoreapp3.0</TargetFrameworks>-->
+    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <Title>Bundler &amp; Minifier</Title>
     <PackageId>BuildBundlerMinifier</PackageId>
 
@@ -23,6 +25,7 @@
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.0-*" PrivateAssets="All" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" PrivateAssets="All" />
     <PackageReference Include="NUglify" Version="1.5.12" PrivateAssets="All" />
+    <PackageReference Include="ExCSS-Core" Version="4.0.4" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
@@ -42,7 +45,7 @@
     but before NuGet generates a nuspec. See https://github.com/NuGet/Home/issues/4704.
     -->
     <ItemGroup>
-      <_PackageFiles Include="bin\$(Configuration)\*\Newtonsoft.Json.dll;bin\$(Configuration)\*\NUglify.dll">
+      <_PackageFiles Include="bin\$(Configuration)\*\Newtonsoft.Json.dll;bin\$(Configuration)\*\NUglify.dll;bin\$(Configuration)\*\ExCSS.dll">
         <PackagePath>tools\%(RecursiveDir)</PackagePath>
         <Visible>false</Visible>
         <BuildAction>Content</BuildAction>
